@@ -27,10 +27,8 @@ const MovieCard = ({ movie }) => {
         }
         onClick={handleCardClick}
       >
-        <Card.Meta
-          title="Overview"
-          description={`Overview ${movie.overview}`}
-        />
+        <Card.Meta title="Movie Name" description={movie.title} />
+        <Card.Meta title="Overview" description={movie.overview} />
         <Card.Meta title="Languages" description={movie.originalLanguage} />
         <Card.Meta title="Release Date" description={movie.releaseDate} />
       </Card>

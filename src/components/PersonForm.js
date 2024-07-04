@@ -34,6 +34,9 @@ const PersonForm = ({ person }) => {
         });
         navigate(`/persons-list`);
       },
+      onError: () => {
+        navigate(`/persons-list`);
+      },
     }
   );
 

@@ -50,6 +50,7 @@ const Navbar = () => {
     <>
       <Header
         style={{
+          margin: 0,
           position: "sticky",
           backgroundColor: "white",
           display: "flex",

@@ -29,6 +29,7 @@ const Persons = () => {
   const navigate = useNavigate();
 
   const { loading, error, data, fetchMore } = useQuery(GET_LIST_PERSONS, {
+    fetchPolicy: "cache-and-network",
     variables: {
       limit: pageSize,
       skip: (currentPage - 1) * pageSize,

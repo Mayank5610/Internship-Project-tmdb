@@ -35,6 +35,7 @@ const Movies = () => {
   const authToken = localStorage.getItem("accessToken");
 
   const { loading, error, data, fetchMore } = useQuery(GET_LIST_MOVIES, {
+    fetchPolicy: "cache-and-network",
     variables: {
       limit: 10,
       skip: 0,

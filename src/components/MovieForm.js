@@ -33,6 +33,9 @@ const MovieForm = ({ movie }) => {
         });
         navigate(`/movies-card`);
       },
+      onError: () => {
+        navigate(`/movies-card`);
+      },
     }
   );
 
