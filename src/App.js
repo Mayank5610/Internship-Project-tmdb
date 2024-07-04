@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import UpdateMovie from "./components/UpdateMovie";
 import AddMovie from "./components/AddMovie";
 import AddPerson from "./components/AddPerson";
+import UpdatePerson from "./components/UpdatePerson";
 
 const { Content } = Layout;
 
@@ -41,6 +42,11 @@ const App = () => {
             />
             <Route exact path="/persons-list" Component={Persons} />
             <Route exact path="/persons-list/create" Component={AddPerson} />
+            <Route
+              exact
+              path="/persons-list/:personId/edit"
+              Component={UpdatePerson}
+            />
           </Routes>
         </Content>
       </Layout>

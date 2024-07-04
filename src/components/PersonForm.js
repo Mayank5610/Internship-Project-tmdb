@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CREATE_PERSON } from "../graphql/Mutations";
+import { CREATE_PERSON, UPDATE_PERSON } from "../graphql/Mutations";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,24 +14,53 @@ import {
   notification,
 } from "antd";
 import { GET_LIST_PERSONS } from "../graphql/Queries";
+import moment from "moment/moment";
 
-const PersonForm = ({ isCompleted }) => {
+const PersonForm = ({ person }) => {
   const navigate = useNavigate();
 
   const [form] = Form.useForm();
 
-  const [createPerson, { error }] = useMutation(CREATE_PERSON, {
-    refetchQueries: [{ query: GET_LIST_PERSONS }],
-    awaitRefetchQueries: true,
-    onCompleted: (data) => {
-      console.log("Person created: ", data);
-      notification.success({
-        message: "Person Creation Successful!",
-        description: "Person created Successfully!",
-      });
-      navigate(`/persons-list`);
-    },
-  });
+  const [personMutation, { error }] = useMutation(
+    person ? UPDATE_PERSON : CREATE_PERSON,
+    {
+      refetchQueries: [{ query: GET_LIST_PERSONS }],
+      awaitRefetchQueries: true,
+      onCompleted: () => {
+        const action = person ? "Updated" : "Added";
+        notification.success({
+          message: `Person ${action} Successfully!`,
+          description: `Person ${action} Successfully!`,
+        });
+        navigate(`/persons-list`);
+      },
+    }
+  );
+
+  let initialValues;
+  if (person) {
+    initialValues = {
+      name: person.name,
+      gender: person.gender,
+      biography: person.biography,
+      birthday: moment(person.birthday).isValid()
+        ? moment(person.birthday)
+        : null,
+      adult: person.adult,
+      placeOfBirth: person.placeOfBirth,
+      alsoKnownAs: person.alsoKnownAs,
+    };
+  } else {
+    initialValues = {
+      name: "",
+      gender: "",
+      biography: "",
+      birthday: "",
+      adult: false,
+      placeOfBirth: "",
+      alsoKnownAs: [],
+    };
+  }
 
   if (error)
     return notification.error({
@@ -39,19 +68,45 @@ const PersonForm = ({ isCompleted }) => {
       description: `${error.message}`,
     });
 
-  const onFinish = (values) => {
+  const handleSubmit = (values) => {
+    const formattedBirthDay = values.birthday
+      ? moment(values.birthday).toISOString()
+      : null;
+
+    const formattedAlsoKnownAs = values.alsoKnownAs.length
+      ? values.alsoKnownAs.join(",")
+      : null;
+
     const variables = {
       name: values.name || null,
       gender: values.gender || null,
       biography: values.biography || null,
-      birthday: values.birthday ? values.birthday : null,
+      birthday: formattedBirthDay,
       adult: values.adult || null,
       placeOfBirth: values.placeOfBirth || null,
-      alsoKnownAs: values.alsoKnownAs || [],
+      alsoKnownAs: formattedAlsoKnownAs,
     };
-    console.log("Variables: ", variables);
 
-    createPerson({ variables });
+    if (person) {
+      //   console.log("Person: ", person);
+      personMutation({ variables: { ...variables, id: person.id } }).catch(
+        (error) => {
+          console.error("Mutation Error: ", error);
+          notification.error({
+            message: "Error Occured!",
+            description: `${error.message}`,
+          });
+        }
+      );
+    } else {
+      personMutation({ variables }).catch((error) => {
+        console.error("Mutation Error: ", error);
+        notification.error({
+          message: "Error Occured!",
+          description: `${error.message}`,
+        });
+      });
+    }
   };
 
   return (
@@ -59,16 +114,8 @@ const PersonForm = ({ isCompleted }) => {
       <Form
         form={form}
         layout="vertical"
-        onFinish={onFinish}
-        initialValues={{
-          name: "",
-          gender: "",
-          biography: "",
-          birthday: "",
-          adult: false,
-          placeOfBirth: "",
-          alsoKnownAs: [],
-        }}
+        onFinish={handleSubmit}
+        initialValues={initialValues}
       >
         <Row gutter={[16, 24]}>
           <Col xs={24} sm={24} md={12} lg={8} xl={6} xxl={4}>
@@ -124,7 +171,7 @@ const PersonForm = ({ isCompleted }) => {
           <Col xs={24} sm={24} md={12} lg={8} xl={6} xxl={4}>
             <Form.Item>
               <Button type="primary" htmlType="submit">
-                Add New Person
+                {person ? "Update Person" : "Add Person"}
               </Button>
             </Form.Item>
           </Col>

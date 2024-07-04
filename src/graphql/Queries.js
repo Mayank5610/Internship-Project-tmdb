@@ -96,3 +96,20 @@ export const GET_LIST_PERSONS = gql`
     }
   }
 `;
+
+export const GET_PERSON = gql`
+  query GetPerson($id: ID!) {
+    person(id: $id) {
+      data {
+        id
+        name
+        gender
+        biography
+        birthday
+        adult
+        placeOfBirth
+        alsoKnownAs
+      }
+    }
+  }
+`;

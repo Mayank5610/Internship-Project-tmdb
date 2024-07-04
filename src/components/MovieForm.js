@@ -20,7 +20,7 @@ const MovieForm = ({ movie }) => {
 
   const navigate = useNavigate();
 
-  const [mutationFunction, { error }] = useMutation(
+  const [movieMutation, { error }] = useMutation(
     movie ? UPDATE_MOVIE : CREATE_MOVIE,
     {
       refetchQueries: [{ query: GET_LIST_MOVIES }],
@@ -28,7 +28,7 @@ const MovieForm = ({ movie }) => {
       onCompleted: () => {
         const action = movie ? "Updated" : "Added";
         notification.success({
-          message: `Movie ${action} Successful!`,
+          message: `Movie ${action} Successfully!`,
           description: `Movie ${action} Successfully!`,
         });
         navigate(`/movies-card`);
@@ -96,9 +96,9 @@ const MovieForm = ({ movie }) => {
     };
     console.log(variables);
     if (movie) {
-      mutationFunction({ variables: { ...variables, id: movie.id } });
+      movieMutation({ variables: { ...variables, id: movie.id } });
     } else {
-      mutationFunction({ variables });
+      movieMutation({ variables });
     }
   };
 

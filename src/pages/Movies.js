@@ -152,6 +152,7 @@ const Movies = () => {
   };
 
   const showDetails = (movieId) => {
+    console.log(movieId);
     navigate(`/movies-card/${movieId}`);
   };
 

@@ -90,7 +90,7 @@ const Persons = () => {
 
   const { listPersons } = data;
 
-  console.log(listPersons);
+  //   console.log(listPersons);
 
   const columns = [
     {
@@ -137,7 +137,7 @@ const Persons = () => {
           <Button type="primary" onClick={() => handleViewModal(record)}>
             View
           </Button>
-          <Button>Edit</Button>
+          <Button onClick={() => handleEditClick(record.id)}>Edit</Button>
           <Button
             type="primary"
             danger
@@ -180,6 +180,10 @@ const Persons = () => {
 
   const handleViewModalClose = () => {
     setViewModalVisible(false);
+  };
+
+  const handleEditClick = (personId) => {
+    navigate(`/persons-list/${personId}/edit`);
   };
 
   const handleDeleteModalVisible = (id) => {

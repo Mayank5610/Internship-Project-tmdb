@@ -150,6 +150,44 @@ export const CREATE_PERSON = gql`
   }
 `;
 
+export const UPDATE_PERSON = gql`
+  mutation UpdatePerson(
+    $id: ID!
+    $name: String
+    $biography: String
+    $gender: GenderType
+    $adult: Boolean
+    $birthday: DateTime
+    $placeOfBirth: String
+    $alsoKnownAs: [String]
+  ) {
+    updatePerson(
+      id: $id
+      data: {
+        name: $name
+        biography: $biography
+        gender: $gender
+        adult: $adult
+        birthday: $birthday
+        placeOfBirth: $placeOfBirth
+        alsoKnownAs: $alsoKnownAs
+      }
+    ) {
+      message
+      data {
+        id
+        name
+        biography
+        gender
+        adult
+        birthday
+        placeOfBirth
+        alsoKnownAs
+      }
+    }
+  }
+`;
+
 export const DELETE_PERSON = gql`
   mutation DeletePerson($id: ID!) {
     deletePerson(id: $id) {
