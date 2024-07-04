@@ -32,7 +32,7 @@ const Movies = () => {
 
   const navigate = useNavigate();
 
-  const authToken = localStorage.getItem("auth-token");
+  const authToken = localStorage.getItem("accessToken");
 
   const { loading, error, data, fetchMore } = useQuery(GET_LIST_MOVIES, {
     variables: {
@@ -297,9 +297,9 @@ const Movies = () => {
                         }}
                         alt={movie.title}
                         src={movie.originalTitle}
+                        onClick={() => showDetails(movie.id)}
                       />
                     }
-                    onClick={() => showDetails(movie.id)}
                     actions={[
                       <Button
                         type="primary"

@@ -43,10 +43,16 @@ const MovieDetail = () => {
       description: `${error.message}`,
     });
 
+  if (data) console.log(movieId);
+
   const movie = data?.movie?.data;
 
   const handleBack = () => {
     navigate(-1);
+  };
+
+  const handleEdit = () => {
+    navigate(`/movies-card/${movieId}/edit`);
   };
 
   return (
@@ -96,6 +102,11 @@ const MovieDetail = () => {
           </Descriptions.Item>
           <Descriptions.Item label="Status">{movie.status}</Descriptions.Item>
           <Descriptions.Item label="Tagline">{movie.tagline}</Descriptions.Item>
+          <Descriptions.Item label="Do you want to edit Movie?">
+            <Button type="primary" onClick={handleEdit}>
+              Edit
+            </Button>
+          </Descriptions.Item>
         </Descriptions>
       </Card>
     </>

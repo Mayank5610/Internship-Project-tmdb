@@ -7,7 +7,9 @@ import Movies from "./pages/Movies";
 import Persons from "./pages/Persons";
 import MovieDetail from "./components/MovieDetail";
 import Login from "./pages/Login";
-import MovieForm from "./components/MovieForm";
+import UpdateMovie from "./components/UpdateMovie";
+import AddMovie from "./components/AddMovie";
+import AddPerson from "./components/AddPerson";
 
 const { Content } = Layout;
 
@@ -22,16 +24,23 @@ const App = () => {
           <Routes>
             <Route exact path="/login" Component={Login} />
             <Route exact path="/" Component={Home} />
-            <Route exact path="/:movieId" Component={MovieDetail} />
+            <Route exact path="/:movieId" Component={MovieDetail} />{" "}
+            {/* for Home Component */}
             <Route exact path="/movies-card" Component={Movies} />
-            <Route exact path="/movies-card/create" Component={MovieForm} />
-            <Route exact path="/movies-card/:movieId" Component={MovieDetail} />
+            <Route
+              exact
+              path="/movies-card/:movieId"
+              Component={MovieDetail}
+            />{" "}
+            {/* for Movies Component */}
+            <Route exact path="/movies-card/create" Component={AddMovie} />
             <Route
               exact
               path="/movies-card/:movieId/edit"
-              Component={MovieForm}
+              Component={UpdateMovie}
             />
             <Route exact path="/persons-list" Component={Persons} />
+            <Route exact path="/persons-list/create" Component={AddPerson} />
           </Routes>
         </Content>
       </Layout>

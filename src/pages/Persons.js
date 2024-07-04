@@ -11,10 +11,10 @@ import {
   Space,
   Spin,
   Table,
-  Typography,
   notification,
 } from "antd";
 import { DELETE_PERSON } from "../graphql/Mutations";
+import { useNavigate } from "react-router-dom";
 
 const Persons = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,6 +25,8 @@ const Persons = () => {
   const [selectedPerson, setSelectedPerson] = useState("");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deletePerson, setDeletePerson] = useState("");
+
+  const navigate = useNavigate();
 
   const { loading, error, data, fetchMore } = useQuery(GET_LIST_PERSONS, {
     variables: {
@@ -166,6 +168,10 @@ const Persons = () => {
     setCurrentPage(page);
   };
 
+  const handleAddPerson = () => {
+    navigate(`/persons-list/create`);
+  };
+
   const handleViewModal = (record) => {
     console.log(record);
     setSelectedPerson(record);
@@ -204,8 +210,12 @@ const Persons = () => {
         placeholder="Search By Name"
         onChange={(e) => setSearchText(e.target.value)}
       />
-      <Button style={{ marginLeft: "10px" }} type="primary">
-        Add New Button
+      <Button
+        style={{ marginLeft: "10px" }}
+        type="primary"
+        onClick={handleAddPerson}
+      >
+        Add New Person
       </Button>
       <Table
         dataSource={

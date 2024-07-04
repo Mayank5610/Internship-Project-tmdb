@@ -32,7 +32,7 @@ export const CREATE_MOVIE = gql`
         adult: $adult
         budget: $budget
         originalTitle: $originalTitle
-        originalLanguage: $originalLangu
+        originalLanguage: $originalLanguage
         releaseDate: $releaseDate
         revenue: $revenue
         runtime: $runtime
@@ -55,10 +55,97 @@ export const CREATE_MOVIE = gql`
   }
 `;
 
+export const UPDATE_MOVIE = gql`
+  mutation UpdateMovie(
+    $id: ID!
+    $title: String!
+    $overview: String!
+    $adult: Boolean!
+    $originalTitle: String!
+    $originalLanguage: String!
+    $budget: Int!
+    $revenue: Int!
+    $releaseDate: Date!
+    $runtime: Int!
+    $status: String!
+    $tagline: String!
+  ) {
+    updateMovie(
+      id: $id
+      data: {
+        title: $title
+        overview: $overview
+        adult: $adult
+        originalTitle: $originalTitle
+        originalLanguage: $originalLanguage
+        budget: $budget
+        revenue: $revenue
+        releaseDate: $releaseDate
+        runtime: $runtime
+        status: $status
+        tagline: $tagline
+      }
+    ) {
+      message
+      data {
+        movie {
+          id
+          title
+          overview
+          adult
+          originalTitle
+          originalLanguage
+          budget
+          revenue
+          releaseDate
+          runtime
+          status
+          tagline
+        }
+      }
+    }
+  }
+`;
+
 export const DELETE_MOVIE = gql`
   mutation DeleteMovie($id: ID!) {
     deleteMovie(id: $id) {
       message
+    }
+  }
+`;
+
+export const CREATE_PERSON = gql`
+  mutation CreatePerson(
+    $name: String!
+    $gender: GenderType
+    $biography: String
+    $birthday: DateTime
+    $adult: Boolean
+    $placeOfBirth: String
+    $alsoKnownAs: [String]
+  ) {
+    createPerson(
+      data: {
+        name: $name
+        gender: $gender
+        biography: $biography
+        birthday: $birthday
+        adult: $adult
+        placeOfBirth: $placeOfBirth
+        alsoKnownAs: $alsoKnownAs
+      }
+    ) {
+      data {
+        id
+        name
+        gender
+        biography
+        birthday
+        adult
+        placeOfBirth
+        alsoKnownAs
+      }
     }
   }
 `;

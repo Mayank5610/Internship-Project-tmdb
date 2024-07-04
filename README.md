@@ -68,3 +68,64 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+update: (cache, { data: { createMovie } }) => {
+      cache.modify({
+        fields: {
+          listMovies(existingMovieRefs = {}, { readField }) {
+            const newMovieRef = cache.writeFragment({
+              data: createMovie,
+              fragment: gql`
+                fragment NewMovie on Movie {
+                    id,
+                    title,
+                    overview,
+                    releaseDate,
+                    
+                }
+              `
+            });
+          },
+        },
+      });
+    },
+
+    update: (cache, { data: { createMovie } }) => {
+      const existingMovies = cache.readQuery({
+        query: GET_LIST_MOVIES,
+        variables: {
+          limit: 10,
+          skip: 0,
+          order: "DESC",
+          category: "LATEST",
+        },
+      });
+
+      cache.writeQuery({
+        query: GET_LIST_MOVIES,
+        data: {
+          listMovies: {
+            ...existingMovies.listMovies,
+            data: [createMovie, ...existingMovies.listMovies.data],
+          },
+        },
+      });
+    },
+
+    onCompleted: (data) => {
+      console.log("Movie created: ", data);
+      notification.success({
+        message: "Movie Creation Successful!",
+        description: "Movie Created Successfully!",
+      });
+      navigate(-1);
+    },
+
+    onError: () => {
+      notification.error({
+        message: "Error Occured!",
+        description: `${error.message}`,
+      });
+    },
+  });

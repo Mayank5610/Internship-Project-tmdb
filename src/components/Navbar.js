@@ -8,14 +8,14 @@ const { Header } = Layout;
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const authToken = localStorage.getItem("auth-token");
+  const authToken = localStorage.getItem("accessToken");
 
   const handleLogin = () => {
     navigate(`/login`);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("auth-token");
+    localStorage.removeItem("accessToken");
     navigate(`/login`);
   };
 
@@ -50,15 +50,24 @@ const Navbar = () => {
     <>
       <Header
         style={{
-          width: "100%",
-          backgroundColor: "white",
-          top: "0px",
           position: "sticky",
+          backgroundColor: "white",
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
           zIndex: 2,
+          top: 0,
         }}
       >
         <Menu
-          style={{ width: "100%", position: "fixed", top: "0px" }}
+          style={{
+            width: "100%",
+            position: "fixed",
+            margin: "5px",
+            left: 0,
+            zIndex: 1,
+            top: 0,
+          }}
           theme="light"
           mode="horizontal"
           defaultSelectedKeys={["/"]}
