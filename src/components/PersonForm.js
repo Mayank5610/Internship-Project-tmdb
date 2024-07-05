@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { CREATE_PERSON, UPDATE_PERSON } from "../graphql/Mutations";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
@@ -26,11 +26,13 @@ const PersonForm = ({ person }) => {
     {
       refetchQueries: [{ query: GET_LIST_PERSONS }],
       awaitRefetchQueries: true,
-      onCompleted: () => {
+      onCompleted: (data) => {
         const action = person ? "Updated" : "Added";
+        const message =
+          data?.createPerson.message || `Person ${action} Successfully`;
         notification.success({
           message: `Person ${action} Successfully!`,
-          description: `Person ${action} Successfully!`,
+          description: message,
         });
         navigate(`/persons-list`);
       },

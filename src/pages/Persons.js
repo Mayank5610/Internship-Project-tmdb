@@ -202,7 +202,7 @@ const Persons = () => {
     setDeleteModalVisible(false);
   };
 
-  const filteredData = listPersons.data.filter((person) =>
+  const filteredData = data.listPersons.data.filter((person) =>
     person.name.toLowerCase().includes(searchText.toLowerCase())
   );
 

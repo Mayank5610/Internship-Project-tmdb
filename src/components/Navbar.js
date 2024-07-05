@@ -50,24 +50,21 @@ const Navbar = () => {
     <>
       <Header
         style={{
-          margin: 0,
-          position: "sticky",
-          backgroundColor: "white",
-          display: "flex",
-          alignItems: "center",
           width: "100%",
-          zIndex: 2,
+          padding: "0px",
+          display: "flex",
+          position: "sticky",
           top: 0,
+          zIndex: 1,
         }}
       >
         <Menu
           style={{
             width: "100%",
+            display: "flex",
             position: "fixed",
-            margin: "5px",
-            left: 0,
-            zIndex: 1,
-            top: 0,
+            paddingLeft: "10px",
+            zIndex: 2,
           }}
           theme="light"
           mode="horizontal"

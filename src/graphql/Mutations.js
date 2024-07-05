@@ -40,6 +40,7 @@ export const CREATE_MOVIE = gql`
         tagline: $tagline
       }
     ) {
+      message
       data {
         movie {
           id
@@ -136,6 +137,7 @@ export const CREATE_PERSON = gql`
         alsoKnownAs: $alsoKnownAs
       }
     ) {
+      message
       data {
         id
         name
