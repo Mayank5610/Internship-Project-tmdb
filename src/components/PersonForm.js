@@ -36,7 +36,11 @@ const PersonForm = ({ person }) => {
         });
         navigate(`/persons-list`);
       },
-      onError: () => {
+      onError: (data) => {
+        notification.error({
+          message: "Error Occured!",
+          description: `${data.message}`,
+        });
         navigate(`/persons-list`);
       },
     }
@@ -67,11 +71,14 @@ const PersonForm = ({ person }) => {
     };
   }
 
-  if (error)
+  if (error) {
+    console.warn(error);
+    navigate(`/persons-list`);
     return notification.error({
       message: "Error Occured!",
       description: `${error.message}`,
     });
+  }
 
   const handleSubmit = (values) => {
     const formattedBirthDay = values.birthday

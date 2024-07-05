@@ -25,15 +25,22 @@ const MovieForm = ({ movie }) => {
     {
       refetchQueries: [{ query: GET_LIST_MOVIES }],
       awaitRefetchQueries: true,
-      onCompleted: () => {
+      onCompleted: (data) => {
         const action = movie ? "Updated" : "Added";
+        const message =
+          data?.createMovie?.message || `Movie ${action} Successfully!`;
         notification.success({
           message: `Movie ${action} Successfully!`,
-          description: `Movie ${action} Successfully!`,
+          description: `Movue ${action} Successfully!`,
         });
         navigate(`/movies-card`);
       },
-      onError: () => {
+      onError: (data) => {
+        // console.log(data.message);
+        notification.error({
+          message: "Error Occured!",
+          description: `${data.message}`,
+        });
         navigate(`/movies-card`);
       },
     }
@@ -73,11 +80,14 @@ const MovieForm = ({ movie }) => {
     };
   }
 
-  if (error)
+  if (error) {
+    console.warn("error:", error);
+    navigate(`/movies-card`);
     return notification.error({
       message: "Error Occured!",
       description: `${error.message}`,
     });
+  }
 
   const handleSubmit = (values) => {
     const formattedReleaseDate = values.releaseDate
@@ -97,7 +107,7 @@ const MovieForm = ({ movie }) => {
       status: values.status,
       tagline: values.tagline,
     };
-    console.log(variables);
+    // console.log(variables);
     if (movie) {
       movieMutation({ variables: { ...variables, id: movie.id } });
     } else {
